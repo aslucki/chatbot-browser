@@ -60,14 +60,17 @@ def extract_request_data(data_dict: dict) -> tuple:
 
 def select_handler(confidence: float, funtion_name: str,
                    threshold: float = 0) -> callable:
-
+    print(confidence)
+    print(confidence < threshold)
     if confidence < threshold:
         return None
 
     if funtion_name == 'mail':
+        print("returning handle")
         return handle_mail
 
 
 def handle_mail():
+    print("rendering")
     return render_template('home.html', test_val="MAIL")
 
