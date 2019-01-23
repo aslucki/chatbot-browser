@@ -23,9 +23,9 @@ def handle_intent():
 
         if handler:
             "returning handler"
-            return handler()
+            return render_template('home.html', test_val="MAIL")
 
-        return jsonify(success=True)
+        return render_template('home.html', test_val="MAIL")
 
     else:
         return render_template('home.html')
