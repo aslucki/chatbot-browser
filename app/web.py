@@ -6,17 +6,12 @@ from flask import (Flask, render_template,
 app = Flask(__name__)
 
 
-@app.route('/')
-def home():
-
-    return render_template('home.html')
-
 @app.route('/_check')
 def healthcheck():
     resp = jsonify(success=True)
     return resp
 
-@app.route('/chatbot', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def handle_intent():
     if request.method == 'POST':
 
@@ -33,7 +28,7 @@ def handle_intent():
         return jsonify(success=True)
 
     else:
-        return 'received GET request'
+        return render_template('home.html')
 
 
 def extract_request_data(data_dict: dict) -> tuple:
