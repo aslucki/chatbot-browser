@@ -25,7 +25,7 @@ def handle_intent():
         print(dir(request.content_encoding))
 
         try:
-            print(request.data.decode('utf-8'))
+            print(request.data.decode('latin-1'))
             with open("test.txt", 'w') as f:
                 f.write(str(request.content))
 
