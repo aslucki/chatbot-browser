@@ -54,6 +54,10 @@ def extract_request_data(data_dict: dict) -> tuple:
     return confidence, function
 
 
+def get_command_file_path():
+    return os.path.join(app.root_path, 'static', 'command.js')
+
+
 def select_handler(confidence: float, funtion_name: str,
                    threshold: float = 0) -> callable:
     print(confidence)
@@ -67,10 +71,7 @@ def select_handler(confidence: float, funtion_name: str,
 
 
 def handle_mail():
-    dirpath = os.getcwd()
-    print("current directory is : " + dirpath)
-    print(app.root_path)
-    with open('/static/command.js', 'w') as f:
+    with open(get_command_file_path(), 'w') as f:
         f.write('alert("gmail")')
 
     return jsonify(success=True)
