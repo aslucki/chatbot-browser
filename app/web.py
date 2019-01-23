@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import (Flask, render_template,
                    request, jsonify,
@@ -23,10 +24,9 @@ def handle_intent():
         handler = select_handler(confidence, function)
 
         if handler:
-            handler()
-            return jsonify(success=True)
+            return handler()
 
-        return jsonify(success=True)
+        return jsonify(success=False)
 
     else:
         return render_template('home.html')
@@ -67,7 +67,9 @@ def select_handler(confidence: float, funtion_name: str,
 
 
 def handle_mail():
-    with open('static/command.js', 'w') as f:
+    dirpath = os.getcwd()
+    print("current directory is : " + dirpath)
+    with open('/static/command.js', 'w') as f:
         f.write('alert("gmail")')
 
     return jsonify(success=True)
