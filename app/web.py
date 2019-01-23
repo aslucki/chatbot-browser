@@ -25,7 +25,7 @@ def handle_intent():
         if handler:
             return handler()
 
-        return render_template('home.html')
+        return redirect("https://stackoverflow.com/questions/483745/replace-html-page-with-contents-retrieved-via-ajax")
 
     else:
         return render_template('home.html')
@@ -67,6 +67,5 @@ def select_handler(confidence: float, funtion_name: str,
 
 
 def handle_mail():
-    print("Rediricting to mail")
-    return redirect(url_for('healthcheck'), test_val="MAIL")
+    return redirect("https://stackoverflow.com/questions/483745/replace-html-page-with-contents-retrieved-via-ajax")
 
