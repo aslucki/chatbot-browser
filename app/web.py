@@ -31,6 +31,11 @@ def handle_intent():
         return render_template('home.html')
 
 
+@app.route('/test')
+def test():
+    return render_template('home.html', test_val="MAIL")
+
+
 def extract_request_data(data_dict: dict) -> tuple:
 
     confidence = None
