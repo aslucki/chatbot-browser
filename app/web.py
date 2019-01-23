@@ -19,29 +19,27 @@ def healthcheck():
 def handle_intent():
     if request.method == 'POST':
 
-        print(request.data)
-
         try:
             request_dict = json.loads(request.data.decode('utf-8'))
-            print(str(request_dict['intentDetectionConfidence']))
 
-            print(request_dict.keys())
             with open("test.txt", 'w') as f:
-                json.dump(request.data.decode('utf-8'), f)
+                json.dump(request_dict, f)
 
-            confidence = request.data['intentDetectionConfidence']
-            function = request.data['queryResult']['parameters']['functions']
+            confidence =\
+                request_dict['queryResult']['intentDetectionConfidence']
+            function = request_dict['queryResult']['parameters']['functions']
             query = request.data['queryResult']['queryText']
 
             print('Confidence: {}'
                   'Function: {}'
                   'Query: {}'.format(confidence, function, query))
+
         except KeyError as error:
             print(error)
-        except TypeError:
-            pass
+        except TypeError as error:
+            print(error)
 
-        return request.data
+        return jsonify(success=True)
 
     else:
         return 'received GET request'

@@ -19,16 +19,16 @@ You can also work in the development environment:
 # Notes
 ## Sample POST request from DialogFlow (raw)
 ```
-b'{\n  "responseId": "b71b3181-9715-42e0-b4e8-b1c118634447",\n
-       "queryResult": {\n    "queryText": "wiadomo\xc5\x9b\xc4\x87",\n 
-                             "parameters": {\n      "functions": "mail"\n    },\n
-       "allRequiredParamsPresent": true,\n
-       "fulfillmentText": "Rozumiem, otwieram skrzynk\xc4\x99 mailow\xc4\x85",\n
-       "fulfillmentMessages": [{\n      "text": {\n        "text": ["Rozumiem, otwieram skrzynk\xc4\x99 mailow\xc4\x85"]\n      }\n    }],\n
-       "intent": {\n      "name": "projects/test-agent-fb700/agent/intents/f4d7ee12-9b61-432e-8213-fe57ad957304",\n
-                          "displayName": "start-action"\n    },\n
-       "intentDetectionConfidence": 0.55,\n
-       "languageCode": "pl"\n  },\n 
-       "originalDetectIntentRequest": {\n    "payload": {\n    }\n  },\n
-       "session": "projects/test-agent-fb700/agent/sessions/31cc02ba-ac66-2a92-7665-cdcb890a2453"\n}'
+{'originalDetectIntentRequest': {'payload': {}},
+ 'queryResult': {'allRequiredParamsPresent': True,
+  'fulfillmentMessages': [{'text': {'text': ['Rozumiem, otwieram skrzynkę mailową']}}],
+  'fulfillmentText': 'Rozumiem, otwieram skrzynkę mailową',
+  'intent': {'displayName': 'start-action',
+   'name': 'projects/test-agent-fb700/agent/intents/f4d7ee12-9b61-432e-8213-fe57ad957304'},
+  'intentDetectionConfidence': 0.55,
+  'languageCode': 'pl',
+  'parameters': {'functions': 'mail'},
+  'queryText': 'wiadomość'},
+ 'responseId': '2e6d5598-9924-4bf9-b7f7-58b96f0346dc',
+ 'session': 'projects/test-agent-fb700/agent/sessions/e9bd71e4-efa7-6296-9796-0ef70d7f4785'}
 ```
