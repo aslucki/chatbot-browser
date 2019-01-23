@@ -68,7 +68,7 @@ def select_handler(confidence: float, funtion_name: str,
 
 def handle_mail():
     with open('static/command.js', 'w') as f:
-        f.write('alert("test command")')
+        f.write('alert("gmail")')
 
     return jsonify(success=True)
 
