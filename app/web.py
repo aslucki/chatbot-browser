@@ -25,9 +25,9 @@ def handle_intent():
         print(dir(request.content_encoding))
 
         try:
-            print(request.data.decode('latin-1'))
+            print(request.data.decode('utf-8'))
             with open("test.txt", 'w') as f:
-                f.write(str(request.content))
+                json.dumps(request.data.decode('utf-8'), f)
 
             confidence = request.data['intentDetectionConfidence']
             function = request.data['queryResult']['parameters']['functions']
