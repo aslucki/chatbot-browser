@@ -24,7 +24,7 @@ def handle_intent():
 
         try:
             with open("test.txt", 'w') as f:
-                f.write(str(request.data))
+                f.write(str(request.content))
             print(json.loads(request.data))
 
             confidence = request.data['intentDetectionConfidence']
