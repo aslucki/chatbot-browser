@@ -28,7 +28,7 @@ def handle_intent():
             confidence =\
                 request_dict['queryResult']['intentDetectionConfidence']
             function = request_dict['queryResult']['parameters']['functions']
-            query = request.data['queryResult']['queryText']
+            query = request_dict['queryResult']['queryText']
 
             print('Confidence: {}'
                   'Function: {}'
@@ -37,6 +37,8 @@ def handle_intent():
         except KeyError as error:
             print(error)
         except TypeError as error:
+            print(error)
+        except AttributeError as error:
             print(error)
 
         return jsonify(success=True)
