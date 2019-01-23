@@ -21,10 +21,11 @@ def handle_intent():
 
         print(request.data)
         print(type(request.data))
+        print(dir(request))
 
         try:
             with open("test.txt", 'w') as f:
-                json.dump(request.content.decode('utf-8'), f)
+                f.write(request.content)
             print(json.loads(request.data))
 
             confidence = request.data['intentDetectionConfidence']
