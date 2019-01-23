@@ -1,3 +1,5 @@
+import json
+
 from flask import (Flask, render_template,
                    request, jsonify)
 
@@ -17,7 +19,8 @@ def healthcheck():
 def handle_intent():
     if request.method == 'POST':
 
-        print(jsonify(request.data))
+        print(request.data)
+        print(json.loads(request.data))
         try:
             confidence = request.data['intentDetectionConfidence']
             function = request.data['queryResult']['parameters']['functions']
