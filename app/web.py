@@ -16,13 +16,18 @@ def healthcheck():
 @app.route('/chatbot', methods=['GET', 'POST'])
 def handle_intent():
     if request.method == 'POST':
-        confidence = request.data['intentDetectionConfidence']
-        function = request.data['queryResult']['parameters']['functions']
-        query = request.data['queryResult']['queryText']
 
-        print('Confidence: {}'
-              'Function: {}'
-              'Query: {}'.format(confidence, function, query))
+        print(jsonify(request.data))
+        try:
+            confidence = request.data['intentDetectionConfidence']
+            function = request.data['queryResult']['parameters']['functions']
+            query = request.data['queryResult']['queryText']
+
+            print('Confidence: {}'
+                  'Function: {}'
+                  'Query: {}'.format(confidence, function, query))
+        except KeyError as error:
+            print(error)
 
         return request.data
 
