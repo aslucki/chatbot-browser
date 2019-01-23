@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+
     return render_template('home.html')
 
 @app.route('/_check')
@@ -26,6 +27,7 @@ def handle_intent():
         handler = select_handler(confidence, function)
 
         if handler:
+            "returning handler"
             return handler()
 
         return jsonify(success=True)
