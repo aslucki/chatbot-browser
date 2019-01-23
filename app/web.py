@@ -22,9 +22,9 @@ def handle_intent():
         print(request.data)
         print(type(request.data))
         print(dir(request))
+        print(dir(request.content_encoding))
 
         try:
-            print(request.args)
             print(request.data.decode('utf-8'))
             with open("test.txt", 'w') as f:
                 f.write(request.content)
