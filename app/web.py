@@ -20,8 +20,12 @@ def handle_intent():
     if request.method == 'POST':
 
         print(request.data)
-        print(json.loads(request.data))
+
         try:
+            with open("test.txt", 'w') as f:
+                f.write(request.data)
+            print(json.loads(request.data))
+
             confidence = request.data['intentDetectionConfidence']
             function = request.data['queryResult']['parameters']['functions']
             query = request.data['queryResult']['queryText']
@@ -31,6 +35,8 @@ def handle_intent():
                   'Query: {}'.format(confidence, function, query))
         except KeyError as error:
             print(error)
+        except TypeError:
+            pass
 
         return request.data
 
