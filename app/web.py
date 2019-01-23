@@ -27,14 +27,14 @@ def handle_intent():
 
         if handler:
             return
-        
+
         return jsonify(success=True)
 
     else:
         return 'received GET request'
 
 
-def extract_request_data(data_dict: dict) -> tuple(float, str, str):
+def extract_request_data(data_dict: dict) -> tuple:
 
     confidence = None
     function = None
