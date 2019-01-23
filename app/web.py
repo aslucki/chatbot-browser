@@ -21,12 +21,12 @@ def handle_intent():
 
         request_dict = json.loads(request.data.decode('utf-8'))
 
-        confidence, function, query = extract_request_data(request_dict)
+        confidence, function = extract_request_data(request_dict)
 
         handler = select_handler(confidence, function)
 
         if handler:
-            return
+            return handler()
 
         return jsonify(success=True)
 
@@ -38,13 +38,11 @@ def extract_request_data(data_dict: dict) -> tuple:
 
     confidence = None
     function = None
-    query = None
 
     try:
         confidence = \
             float(data_dict['queryResult']['intentDetectionConfidence'])
         function = data_dict['queryResult']['parameters']['functions']
-        query = data_dict['queryResult']['queryText']
 
     except KeyError as error:
         print(error)
@@ -55,7 +53,7 @@ def extract_request_data(data_dict: dict) -> tuple:
     except AttributeError as error:
         print(error)
 
-    return confidence, function, query
+    return confidence, function
 
 
 def select_handler(confidence: float, funtion_name: str,
