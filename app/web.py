@@ -68,5 +68,5 @@ def select_handler(confidence: float, funtion_name: str,
 
 def handle_mail():
     print("Rediricting to mail")
-    return redirect(url_for('/_check'), test_val="MAIL")
+    return redirect(url_for('healthcheck'), test_val="MAIL")
 
