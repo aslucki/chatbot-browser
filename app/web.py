@@ -23,13 +23,13 @@ def handle_intent():
         handler = select_handler(confidence, function)
 
         if handler:
-            return handler()
+            handler()
+            return jsonify(success=True)
 
-        return redirect("https://stackoverflow.com/questions/483745/replace-html-page-with-contents-retrieved-via-ajax")
+        return jsonify(success=True)
 
     else:
         return render_template('home.html')
-
 
 
 def extract_request_data(data_dict: dict) -> tuple:
@@ -67,5 +67,8 @@ def select_handler(confidence: float, funtion_name: str,
 
 
 def handle_mail():
-    return redirect("https://stackoverflow.com/questions/483745/replace-html-page-with-contents-retrieved-via-ajax")
+    with open('static/command.js', 'w') as f:
+        f.write('alert("test command")')
+
+    return jsonify(success=True)
 

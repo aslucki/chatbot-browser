@@ -8,3 +8,19 @@
 <h1>
     {{ test_val }}
 </h1>
+
+
+<a href="" id="command">Wykonaj</a>
+
+<script type="text/javascript">
+var command = document.getElementById('command');
+
+command.onclick = function(){
+
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "/static/command.js";
+    document.getElementsByTagName("head")[0].appendChild(script);
+    return false;
+}
+</script>
