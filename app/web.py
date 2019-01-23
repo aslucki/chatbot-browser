@@ -1,7 +1,8 @@
 import json
 
 from flask import (Flask, render_template,
-                   request, jsonify)
+                   request, jsonify,
+                   redirect, url_for)
 
 app = Flask(__name__)
 
@@ -22,18 +23,13 @@ def handle_intent():
         handler = select_handler(confidence, function)
 
         if handler:
-            "returning handler"
-            return render_template('test.html')
+            return handler()
 
-        return render_template('home.html', test_val="MAIL")
+        return render_template('home.html')
 
     else:
         return render_template('home.html')
 
-
-@app.route('/test')
-def test():
-    return render_template('home.html', test_val="MAIL")
 
 
 def extract_request_data(data_dict: dict) -> tuple:
@@ -71,6 +67,6 @@ def select_handler(confidence: float, funtion_name: str,
 
 
 def handle_mail():
-    print("rendering")
-    return render_template('home.html', test_val="MAIL")
+    print("Rediricting to mail")
+    return redirect(url_for('/'), test_val="MAIL")
 
