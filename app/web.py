@@ -69,6 +69,7 @@ def select_handler(confidence: float, funtion_name: str,
 def handle_mail():
     dirpath = os.getcwd()
     print("current directory is : " + dirpath)
+    print(app.root_path)
     with open('/static/command.js', 'w') as f:
         f.write('alert("gmail")')
 
