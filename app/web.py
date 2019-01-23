@@ -23,7 +23,7 @@ def handle_intent():
 
         if handler:
             "returning handler"
-            return render_template('home.html', test_val="MAIL")
+            return render_template('test.html')
 
         return render_template('home.html', test_val="MAIL")
 
