@@ -10,6 +10,7 @@ def hello():
 @app.route('/chatbot', methods=['GET', 'POST'])
 def handle_fulfillment():
     if request.method == 'POST':
+        print(request.data)
         return request.data
     else:
         return "received GET request"
