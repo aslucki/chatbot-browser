@@ -20,15 +20,12 @@ def handle_intent():
     if request.method == 'POST':
 
         print(request.data)
-        print(type(request.data))
-        print(dir(request))
-        print(dir(request.content_encoding))
 
         try:
             request_dict = json.loads(request.data.decode('utf-8'))
             print(request_dict['intentDetectionConfidence'])
 
-            print(request.data.decode('utf-8'))
+            print(request_dict)
             with open("test.txt", 'w') as f:
                 json.dump(request.data.decode('utf-8'), f)
 
