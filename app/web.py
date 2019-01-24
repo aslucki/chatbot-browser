@@ -1,9 +1,9 @@
+from datetime import datetime
 import json
 import os
 
 from flask import (Flask, render_template,
-                   request, jsonify,
-                   redirect, url_for)
+                   request, jsonify)
 
 app = Flask(__name__)
 
@@ -31,6 +31,20 @@ def handle_intent():
 
     else:
         return render_template('home.html')
+
+@app.after_request
+def add_header(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers['Last-Modified'] = datetime.now()
+    r.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, "\
+                                 "post-check=0, pre-check=0, max-age=0"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "-1"
+    return r
+
 
 
 @app.route('/reset')

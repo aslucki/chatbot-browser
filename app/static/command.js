@@ -1,1 +1,1 @@
-alert("test command")
+alert("No action")
