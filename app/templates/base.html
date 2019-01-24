@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Towarzysz obsługi komputera</title>
+  </head>
+  <body onload="action()">
+
+  <center>
+        <img src="{{ url_for('static', filename='kulfon.png')}}" style="width:15%">
+
+        <form action="{{ url_for('chat') }}" method="post">
+          <input type="text" name="query" placeholder="Możesz tu kliknąć i napisać mi co chcesz zrobić"><br/>
+          <input class="button" type="submit" value="Zatwierdź">
+        </form>
+
+        <p id="answer">{% block content %}{% endblock %}</p>
+
+    </center>
+
+    <script>
+    setTimeout(
+        function action() {
+            {% block function %}{% endblock %}
+         }, 2000)
+    </script>
+
+  </body>
+</html>
