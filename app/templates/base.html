@@ -17,12 +17,13 @@
         <p id="answer">{% block content %}{% endblock %}</p>
 
     </center>
+    {% block extra_content %}{% endblock %}
 
     <script>
     setTimeout(
         function action() {
             {% block function %}{% endblock %}
-         }, 2000)
+         }, 1000)
     </script>
 
   </body>

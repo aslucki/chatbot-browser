@@ -5,7 +5,6 @@ input[type=text] {
   border-radius: 8px;
 }
 
-
 .button {
   margin: 10px;
   padding: 15px 25px;
@@ -30,9 +29,54 @@ input[type=text] {
 
 #answer {
   padding: 5px;
-  margin: 70px;
+  margin: 35px;
   font-size:30px;
   font-family: Georgia;
   color: black;
 }
 
+#news_section {
+  margin: 10px;
+  height:320px;
+  overflow-y: auto;
+
+}
+
+#news_div {
+  margin-top: 30px;
+}
+
+#news_ul {
+  list-style-type: none;
+  width: 40%;
+  margin: auto;
+}
+
+#news_h3 {
+  font: bold 22px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#news_li #news_img {
+  float: left;
+  margin: 0 15px 0 0;
+}
+
+#news_li #news_p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+
+#news_li {
+  padding: 10px;
+  background: #FAF4F2;
+  height:300px;
+}
+
+#news_li:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

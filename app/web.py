@@ -1,3 +1,5 @@
+import uuid
+
 from flask import Flask, render_template, request, jsonify
 
 from handlers_manager import HandlersManager
@@ -5,6 +7,10 @@ from api_manager import DialogFlowAPIManager
 
 app = Flask(__name__)
 api_manager = DialogFlowAPIManager('test-agent-fb700', 'pl')
+
+# TODO: Implement real sessions
+session_id = uuid.uuid4().hex
+
 
 @app.route('/_check')
 def health_check():
@@ -17,12 +23,16 @@ def chat():
 
     if request.method == 'POST':
         query = request.form['query']
+        intent, answer = api_manager.get_answer(session_id, query)
 
-        intent, answer = api_manager.get_answer(query)
-        function = HandlersManager.get_handler(intent)
-
-        return render_template('conversation.html', text=answer,
-                               function=function)
+        return HandlersManager.handle_intent(intent, answer)
     else:
         return render_template('start.html')
+
+
+@app.route('/_test/<intent>')
+def test(intent):
+    chatbot_answer = "Kulfon odpowiedział " + intent
+
+    return HandlersManager.handle_intent(intent, chatbot_answer)
 

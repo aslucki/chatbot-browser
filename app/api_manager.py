@@ -7,16 +7,16 @@ class DialogFlowAPIManager:
         self.__project_id = project_id
         self.__language_code = language_code
 
-    def get_answer(self, query):
+    def get_answer(self, session_id, query):
 
         intent = None
+        answer = "Możesz napisać swoimi słowami, tochę rozumiem."
 
-        if query == "":
-            answer = "Możesz napisać swoimi słowami, tochę rozumiem."
-        else:
+        try:
             confidence, intent, answer, _ =\
-                self.__detect_intent_texts('3231313', query)
-            print(intent)
+                self.__detect_intent_texts(session_id, query)
+        except:
+            pass
 
         return intent, answer
 

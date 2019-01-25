@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ text }}
+    <hr>
+{% endblock %}
+
+{% block extra_content %}
+    <div id="news_section">
+       {% for item in tvn_news %}
+          <div id="news_div">
+              <ul id="news_ul">
+                  <a href="{{ item['link'] }}" target="_blank">
+                      <li id="news_li">
+                          <p style="color: blue"> Opublikowano: {{ item['date'] }} </p>
+                          <h3 id="news_h3"> {{ item['title'] }} </h3>
+                          <div> {{ item['description'] | safe }} </div>
+                        </li>
+                    </a>
+                </ul>
+            </div>
+       {% endfor %}
+    </div>
+
+{% endblock %}
+
+
