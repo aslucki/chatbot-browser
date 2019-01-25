@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 
-from google_api_manager import prepare_answer, detect_intent_texts
-from handlers import default_handler, mail_request_handler
+from handlers_manager import HandlersManager
+from api_manager import DialogFlowAPIManager
 
 app = Flask(__name__)
-
+api_manager = DialogFlowAPIManager('test-agent-fb700', 'pl')
 
 @app.route('/_check')
 def health_check():
@@ -18,26 +18,11 @@ def chat():
     if request.method == 'POST':
         query = request.form['query']
 
-        if query == "":
-            text = "Możesz napisać swoimi słowami, tochę rozumiem"
-            return render_template('conversation.html',
-                                   text=text)
+        intent, answer = api_manager.get_answer(query)
+        function = HandlersManager.get_handler(intent)
 
-        conf, intent, answer, is_fallback =\
-            detect_intent_texts('test-agent-fb700',
-                                '3123123', query, 'pl')
-
-        function = manage_handlers(intent)
-        text = prepare_answer(conf, intent, answer, is_fallback)
-
-        return render_template('conversation.html', text=text,
+        return render_template('conversation.html', text=answer,
                                function=function)
     else:
         return render_template('start.html')
 
-
-def manage_handlers(intent):
-    if intent == 'start-action':
-        return mail_request_handler()
-    else:
-        return default_handler()
