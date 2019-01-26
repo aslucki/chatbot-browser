@@ -5,8 +5,13 @@ from flask import Flask, render_template, request, jsonify, make_response
 from handlers_manager import HandlersManager
 from api_manager import DialogFlowAPIManager
 
-app = Flask(__name__)
+
+def create_app():
+    return Flask(__name__)
+
+app = create_app()
 api_manager = DialogFlowAPIManager('test-agent-fb700', 'pl')
+handlers_manager = HandlersManager()
 
 
 @app.route('/_check')
@@ -22,10 +27,13 @@ def chat():
         query = request.form['query']
 
         user_id = __get_user_id(request, 'user_id')
-        intent, answer = api_manager.get_answer(session_id=user_id,
-                                                query=query)
+        intent, answer, params = api_manager.get_answer(session_id=user_id,
+                                                        query=query)
+        print(intent)
+        print(params)
 
-        return HandlersManager.handle_intent(intent, answer)
+        return handlers_manager.handle_intent(intent, answer=answer,
+                                              query=query, params=params)
     else:
         response = make_response(render_template('start.html'))
         __set_user_id(response, 'user_id')
@@ -40,9 +48,8 @@ def test():
 
     chatbot_answer = "Kulfon odpowiedział " + intent
 
-    return HandlersManager.handle_intent(intent,
-                                         answer=chatbot_answer,
-                                         query=query)
+    return handlers_manager.handle_intent(intent, answer=chatbot_answer,
+                                          query=query)
 
 
 def __get_user_id(request: request, cookie_key: str) -> str:

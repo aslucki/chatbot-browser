@@ -11,14 +11,19 @@ class DialogFlowAPIManager:
 
         intent = None
         answer = "Możesz napisać swoimi słowami, tochę rozumiem."
-
+        params = None
         try:
-            intent, answer =\
-                self.__detect_intent_texts(session_id, query)
+            response = self.__detect_intent_texts(session_id, query)
+            answer = response.query_result.fulfillment_text
+            intent = None
+
+            if response.query_result.all_required_params_present:
+                intent = response.query_result.intent.display_name
+                params = response.query_result.parameters
         except:
             pass
 
-        return intent, answer
+        return intent, answer, params
 
     def __detect_intent_texts(self, session_id, text):
         """Returns the result of detect intent with texts as inputs.
@@ -38,7 +43,4 @@ class DialogFlowAPIManager:
         response = session_client.detect_intent(
             session=session, query_input=query_input)
 
-        intent_name = response.query_result.intent.display_name
-        answer = response.query_result.fulfillment_text
-
-        return intent_name, answer
+        return response
