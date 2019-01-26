@@ -6,10 +6,7 @@ from handlers_manager import HandlersManager
 from api_manager import DialogFlowAPIManager
 
 
-def create_app():
-    return Flask(__name__)
-
-app = create_app()
+app = Flask(__name__)
 api_manager = DialogFlowAPIManager('test-agent-fb700', 'pl')
 handlers_manager = HandlersManager()
 
