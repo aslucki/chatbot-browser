@@ -13,7 +13,7 @@ class DialogFlowAPIManager:
         answer = "Możesz napisać swoimi słowami, tochę rozumiem."
 
         try:
-            confidence, intent, answer, _ =\
+            intent, answer =\
                 self.__detect_intent_texts(session_id, query)
         except:
             pass
@@ -38,14 +38,7 @@ class DialogFlowAPIManager:
         response = session_client.detect_intent(
             session=session, query_input=query_input)
 
-        confidence = response.query_result.intent_detection_confidence
         intent_name = response.query_result.intent.display_name
         answer = response.query_result.fulfillment_text
 
-        is_fallback = False
-        try:
-            is_fallback = response.query_result.intent.is_fallback
-        except KeyError:
-            pass
-
-        return round(confidence*100), intent_name, answer, is_fallback
+        return intent_name, answer

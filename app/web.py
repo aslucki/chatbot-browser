@@ -30,9 +30,15 @@ def chat():
         return render_template('start.html')
 
 
-@app.route('/_test/<intent>')
-def test(intent):
+@app.route('/_test')
+def test():
+    intent = request.args.get('intent')
+    query = request.args.get('query')
+
     chatbot_answer = "Kulfon odpowiedział " + intent
 
-    return HandlersManager.handle_intent(intent, chatbot_answer)
+    return HandlersManager.handle_intent(intent,
+                                         answer=chatbot_answer,
+                                         query=query)
+
 

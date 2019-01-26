@@ -1,13 +1,14 @@
 from datetime import datetime
+import requests
 
 from bs4 import BeautifulSoup
 from flask import render_template
-import requests
+
 
 class HandlersManager:
 
     @staticmethod
-    def handle_intent(intent: str, answer=None) -> callable:
+    def handle_intent(intent: str, answer=None, query=None) -> callable:
         if intent == 'mail':
             return HandlersManager.__mail_request_handler(answer)
 
@@ -18,10 +19,10 @@ class HandlersManager:
             return HandlersManager.__weather_request_handler(answer)
 
         elif intent == 'call':
-            return HandlersManager.__call_request_handler()
+            return HandlersManager.__call_request_handler(answer)
 
         elif intent == 'search':
-            return HandlersManager.__search_request_handler()
+            return HandlersManager.__search_request_handler(answer, query)
 
         else:
             return HandlersManager.__default_handler(answer)
@@ -31,13 +32,14 @@ class HandlersManager:
         return render_template('start.html', text=answer)
 
     @staticmethod
-    def __mail_request_handler(answer) -> str:
+    def __mail_request_handler(answer):
+
         function = 'window.open("https://www.google.com/gmail/");'
 
         return render_template('mail.html', text=answer, function=function)
 
     @staticmethod
-    def __news_request_handler(answer) -> str:
+    def __news_request_handler(answer):
 
         resp = requests.get('https://www.tvn24.pl/najwazniejsze.xml')
         if resp.status_code == 200:
@@ -49,17 +51,23 @@ class HandlersManager:
         return render_template('news.html', tvn_news=output, text=answer)
 
     @staticmethod
-    def __weather_request_handler(answer) -> str:
+    def __weather_request_handler(answer):
 
         return render_template('weather.html', text=answer)
 
     @staticmethod
-    def __call_request_handler() -> str:
-        return 'alert("call");'
+    def __call_request_handler(answer):
+        return render_template('hangouts.html', text=answer)
 
     @staticmethod
-    def __search_request_handler() -> str:
-        return 'alert("search");'
+    def __search_request_handler(answer, query):
+
+        base_url = "http://www.google.com/search?q="
+        query_formated = query.replace(" ", "+")
+
+        function = 'window.open(\"{}\");'.format(base_url+query_formated)
+
+        return render_template('search.html', text=answer, function=function)
 
     @staticmethod
     def __tvn_soup_to_items(soup: BeautifulSoup) -> list:

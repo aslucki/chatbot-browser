@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ text }}
+    <hr>
+{% endblock %}
+
+{% block extra_content %}
+<h2>Kliknij, żeby zadzwonić:</h2>
+<script >
+  window.___gcfg = {
+    lang: 'pl-PL',
+    parsetags: 'onload'
+  };
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<g:hangout render="createhangout" widget_size=500
+           invites="[{ id : 'rodzina@rodzina.pl', invite_type : 'EMAIL' }]">
+</g:hangout>
+
+{% endblock %}
