@@ -9,7 +9,7 @@ as an interface for older adults.
 1. Build a Docker image:
 `make build`
 
-2. Start an application:
+2. Start the application:
 `make start_app`
 
 You can also work in the development environment: 
@@ -41,7 +41,7 @@ query_result {
   parameters {
   }
   all_required_params_present: true
-  fulfillment_text: "Możesz to powtóżyć?"
+  fulfillment_text: "Możesz to powtórzyć?"
   fulfillment_messages {
     text {
       text: "Nie bardzo rozumiem."
