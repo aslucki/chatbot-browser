@@ -1,15 +1,12 @@
 import uuid
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 
 from handlers_manager import HandlersManager
 from api_manager import DialogFlowAPIManager
 
 app = Flask(__name__)
 api_manager = DialogFlowAPIManager('test-agent-fb700', 'pl')
-
-# TODO: Implement real sessions
-session_id = uuid.uuid4().hex
 
 
 @app.route('/_check')
@@ -23,11 +20,17 @@ def chat():
 
     if request.method == 'POST':
         query = request.form['query']
-        intent, answer = api_manager.get_answer(session_id, query)
+
+        user_id = __get_user_id(request, 'user_id')
+        intent, answer = api_manager.get_answer(session_id=user_id,
+                                                query=query)
 
         return HandlersManager.handle_intent(intent, answer)
     else:
-        return render_template('start.html')
+        response = make_response(render_template('start.html'))
+        __set_user_id(response, 'user_id')
+
+        return response
 
 
 @app.route('/_test')
@@ -42,3 +45,20 @@ def test():
                                          query=query)
 
 
+def __get_user_id(request: request, cookie_key: str) -> str:
+
+    user_id = request.cookies.get(cookie_key)
+    if not user_id:
+        user_id = uuid.uuid4().hex
+
+    return user_id
+
+
+def __set_user_id(response, cookie_key: str):
+
+    user_id = request.cookies.get(cookie_key)
+    if not user_id:
+        user_id = uuid.uuid4().hex
+        response.set_cookie(cookie_key, user_id)
+
+    return response

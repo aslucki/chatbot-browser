@@ -4,14 +4,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -y install \
     build-essential \
-    curl \
-    fuse \
-    git-core \
-    default-jre \
     python3-pip \
     python3-tk \
     python3.7 \
     python3.7-dev
+
 
 RUN pip3 install --upgrade pip
 

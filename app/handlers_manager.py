@@ -1,6 +1,6 @@
-from datetime import datetime
 import requests
 
+import arrow
 from bs4 import BeautifulSoup
 from flask import render_template
 
@@ -75,6 +75,7 @@ class HandlersManager:
 
     @staticmethod
     def __tvn_soup_to_items(soup: BeautifulSoup) -> list:
+
         output = []
         for item in soup.findAll('item'):
 
@@ -82,10 +83,9 @@ class HandlersManager:
             if title.replace(" ", "") == "" or title == "<![CDATA[ ]]>":
                 continue
 
-            date = item.find('pubDate').contents[0]
-            converted_date = datetime\
-                .strptime(date, '%a, %d %b %y %H:%M:%S %z')\
-                .strftime('%A, %d %B %Y, godzina: %H:%M')
+            date_str = item.find('pubDate').contents[0]
+            converted_date = HandlersManager.__convert_date(date_str,
+                                                            locale='pl_PL')
 
             item_dict = dict()
             item_dict['title'] = title
@@ -95,3 +95,20 @@ class HandlersManager:
             output.append(item_dict)
 
         return output
+
+
+    @staticmethod
+    def __convert_date(date_str:str, locale='pl_PL'):
+        try:
+            date_obj = arrow.get(date_str,
+                                 'ddd, DD MMM YY HH:mm:ss Z')
+            description = date_obj.humanize(locale=locale)
+            converted_date = date_obj \
+                .format('dddd, D MMMM YYYY, H:mm', locale=locale)
+
+            converted_date += ' ({}) '.format(description)
+        except arrow.parser.ParserError:
+            converted_date = date_str
+
+        return converted_date
+
