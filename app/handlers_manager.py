@@ -46,7 +46,7 @@ class HandlersManager:
             soup = BeautifulSoup(resp.content, features="xml")
             output = HandlersManager.__tvn_soup_to_items(soup)
         else:
-            pass
+            output = "error"
 
         return render_template('news.html', tvn_news=output, text=answer)
 
@@ -63,9 +63,13 @@ class HandlersManager:
     def __search_request_handler(answer, query):
 
         base_url = "http://www.google.com/search?q="
-        query_formated = query.replace(" ", "+")
 
-        function = 'window.open(\"{}\");'.format(base_url+query_formated)
+        if query:
+            query_formatted = query.replace(" ", "+")
+        else:
+            query_formatted = ""
+
+        function = 'window.open(\"{}\");'.format(base_url+query_formatted)
 
         return render_template('search.html', text=answer, function=function)
 
