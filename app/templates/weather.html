@@ -2,12 +2,32 @@
 
 {% block content %}
    {{ text }}
+    <hr>
+    <img src="{{ current['icon_url'] | safe }}" style="width: 80px;"/>
+    <h3>
+        Teraz {{ current['description'] }}. Temperatura wynosi {{ current['temp'] }} &#8451;.
+    </h3>
 
-    <div id="results">
-        <!-- weather widget start -->
-        <a target="_blank" href="https://booked.com.pl/weather/warsaw-326">
-            <img src="https://w.bookcdn.com/weather/picture/1_326_1_18_137AE9_290_ffffff_333333_08488D_1_ffffff_333333_0_6.png?scode=124&domid=&anc_id=21039"  alt="booked.net"/>
-        </a><!-- weather widget end -->
-    </div>
+{% endblock %}
 
+{% block extra_content %}
+
+<div id="weather_section">
+<h4>Prognoza na najbliższy czas: </h4>
+    <table>
+        {% for item in forecast %}
+        {% if  loop.index is divisibleby 2 %}
+          {% set color = '#D0D7F4' %}
+        {% else %}
+          {% set color = '#D9DBE4' %}
+        {% endif %}
+            <tr style="background-color:{{ color }}">
+                <td> {{ item['date'] }} ( {{item['date_desc']}})</td>
+                <td><img src="{{ item['icon_url'] | safe }}"/></td>
+                <td>{{ item['description'] }} </td>
+                <td>{{ item['temp'] }} &#8451;</td>
+            </tr>
+        {% endfor%}
+    </table>
+</div>
 {% endblock %}

@@ -1,3 +1,4 @@
+import os
 import requests
 
 import arrow
@@ -69,12 +70,42 @@ class HandlersManager:
 
     def __weather_request_handler(self):
         answer = self.__arguments.get('answer')
+        params = self.__arguments.get('params')
 
-        return render_template('weather.html', text=answer)
+        if params:
+            try:
+                city = params['miasto']
+            except KeyError:
+                city = 'Warsaw'
+        api_key = os.environ.get('weather_api_key')
+
+        if not api_key:
+            return render_template('start.html', text=answer)
+
+        current, forecast = HandlersManager.__get_weather_data(city, api_key)
+        current_processed =\
+            HandlersManager.__process_weather_current(current)
+        forecast_processed = \
+            HandlersManager.__process_weather_forecast(forecast)
+
+        return render_template('weather.html', text=answer,
+                               current=current_processed,
+                               forecast=forecast_processed)
 
     def __call_request_handler(self):
         answer = self.__arguments.get('answer')
-        return render_template('hangouts.html', text=answer)
+        params = self.__arguments.get('params')
+
+        if params:
+            try:
+                name = params['given-name']
+                mail = name.replace(" ", ".")
+                mail += "@gmail_fake.com"
+
+            except KeyError:
+                mail = "krewny@krewny.pl"
+
+        return render_template('hangouts.html', text=answer, mail=mail)
 
     def __search_request_handler(self):
         base_url = "http://www.google.com/search?q="
@@ -130,4 +161,71 @@ class HandlersManager:
             converted_date = date_str
 
         return converted_date
+
+    @staticmethod
+    def __get_weather_data(city: str, api_key):
+        base_url = 'http://api.openweathermap.org/data/2.5/'
+
+        current_url = '{}{}?q={}&lang={}&units=metric&appid={}'\
+            .format(base_url, 'weather', city, 'pl', api_key)
+
+        forecast_url = '{}{}?q={}&lang={}&units=metric&appid={}'\
+            .format(base_url, 'forecast', city, 'pl', api_key)
+
+        try:
+            current = requests.get(current_url).json()
+            forecast = requests.get(forecast_url).json()
+
+        except requests.exceptions.HTTPError:
+            current = None
+            forecast = None
+
+        return current, forecast
+
+    @staticmethod
+    def __process_weather_current(weather_data: dict) -> dict:
+
+        processed = {}
+        try:
+            icon_id = weather_data['weather'][0]['icon']
+            processed['icon_url'] = 'http://openweathermap.org/img/w/{}.png'\
+                .format(icon_id)
+            processed['temp'] = weather_data['main']['temp']
+            processed['description'] =\
+                weather_data['weather'][0]['description']
+        except KeyError:
+            pass
+
+        return processed
+
+    @staticmethod
+    def __process_weather_forecast(weather_data: dict) -> list:
+        processed = []
+
+        try:
+            allowed_cnt = min(18, weather_data['cnt'])
+            forecasts = weather_data['list'][4:allowed_cnt:4]
+
+            for forecast in forecasts:
+                forecast_data = {}
+
+                date = arrow.get(forecast['dt_txt'],
+                                 'YYYY-MM-DD HH:mm:ss')
+                icon_id = forecast['weather'][0]['icon']
+
+                forecast_data['date'] = date.format('DD MMM, H:mm',
+                                                    locale="pl_PL")
+                forecast_data['date_desc'] = date.humanize(locale='pl_PL')
+                forecast_data['icon_url'] = 'http://openweathermap.org/img/w/{}.png'\
+                    .format(icon_id)
+                forecast_data['temp'] = forecast['main']['temp']
+                forecast_data['description'] = forecast['weather'][0]['description']
+
+                processed.append(forecast_data)
+
+        except KeyError:
+            pass
+
+        return processed
+
 

@@ -26,8 +26,6 @@ def chat():
         user_id = __get_user_id(request, 'user_id')
         intent, answer, params = api_manager.get_answer(session_id=user_id,
                                                         query=query)
-        print(intent)
-        print(params)
 
         return handlers_manager.handle_intent(intent, answer=answer,
                                               query=query, params=params)
