@@ -5,6 +5,9 @@ as an interface for older adults.
 
 ![Alt chatbot home screen](home_screen.png)
 
+The application currently (27.01.2019) can be accessed at:
+https://jovialallen.pythonanywhere.com/
+
 # Description
 Application using google SDK to communicate with a DialogFlow agent.
 The agent's purpose is to assist older adults navigate through basic,
