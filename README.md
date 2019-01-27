@@ -1,8 +1,19 @@
 # chatbot-browser
-Basic functionality of modern web browsers managed by google dialogflow chatbot  
+Basic computer utilities managed by our custom agent 
+created with [Google DialogFlow](https://dialogflow.com/)
 as an interface for older adults.
 
+![Alt chatbot home screen](home_screen.png)
+
 # Description
+Application using google SDK to communicate with a DialogFlow agent.
+The agent's purpose is to assist older adults navigate through basic,
+yet most useful for them utilities of modern computers, namely:
+* Mailbox
+* Weather status and forecast
+* Top press news
+* Online voice and video communicator (Google hangouts)
+* Web search utility
 
 ## How to run locally
 
@@ -15,9 +26,27 @@ as an interface for older adults.
 You can also work in the development environment: 
 `make dev`
 
+### Additional requirements
+#### DialogFlow SDK
+* Application requires Google Application Credentials.
+* The DialogFlow agent (included id this repo: [agent.zip](agent.zip))
 
-# Notes
-## Sample POST request from DialogFlow (raw)
+The agent can be imported to DialogFlow system on your own account.
+It allows you to generate required credentials' file.  
+All google services can be managed from Google Cloud Platform console.
+Here are details regarding the authentication:
+https://cloud.google.com/docs/authentication/getting-started 
+
+#### Weather Data
+* Application uses https://openweathermap.org/api for weather data,
+API key is required.
+
+Both, the path to the Google Application Credentials file
+and weather API key should be available as environmental variables,
+named `GOOGLE_APPLICATION_CREDENTIALS` and `weather_api_key` accordingly.
+
+# Sample data obtained with DialogFlow
+## Sample POST request from DialogFlow (integration with a webhook)
 ```
 {'originalDetectIntentRequest': {'payload': {}},
  'queryResult': {'allRequiredParamsPresent': True,
@@ -32,6 +61,13 @@ You can also work in the development environment:
  'responseId': '2e6d5598-9924-4bf9-b7f7-58b96f0346dc',
  'session': 'projects/test-agent-fb700/agent/sessions/e9bd71e4-efa7-6296-9796-0ef70d7f4785'}
 ```
+
+### Note
+It's recommended by google but it's very limited and probably shouldn't be
+used for use cases when we want to process output from an agent by ourselves
+and present it to only the specific user who interacted with the agent.
+However, here is an example of a project based on that architecture:
+https://medium.com/swlh/how-to-build-a-chatbot-with-dialog-flow-chapter-4-external-api-for-fulfilment-3ab934fd7a00
 
 ## DialogFlow API response for not recognized
 ```buildoutcfg
